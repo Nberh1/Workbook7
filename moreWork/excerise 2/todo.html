@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo Page</title>
+</head>
+<body>
+    <h1>ToDo Page</h1>
+    <label for="todoId">Enter ToDo ID:</label>
+    <input type="text" id="todoId">
+    <button id="fetchTodo">Fetch ToDo</button>
+    <div id="todoInfo"></div>
+    <script>
+        "use strict";
+ document.getElementById("fetchTodo").addEventListener("click", function () {
+   let todoId = document.getElementById("todoId").value;
+   let url = "https://jsonplaceholder.typicode.com/todos/" + todoId;
+
+   fetch(url)
+     .then((response) => response.json())
+     .then((data) => {
+       let todoInfoDiv = document.getElementById("todoInfo");
+       todoInfoDiv.innerHTML = "";
+       todoInfoDiv.innerHTML += "<p>User ID: " + data.userId + "</p>";
+       todoInfoDiv.innerHTML += "<p>ID: " + data.id + "</p>";
+       todoInfoDiv.innerHTML += "<p>Title: " + data.title + "</p>";
+       todoInfoDiv.innerHTML += "<p>Completed: " + data.completed + "</p>";
+     })
+     .catch((error) => {
+       let todoInfoDiv = document.getElementById("todoInfo");
+       todoInfoDiv.innerHTML = "<p>Error fetching ToDo. Please try again.</p>";
+     });
+ });
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Courses</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <header></header>
+    <main>
+      <div class="container">
+        <h1>Courses</h1>
+      </div>
+      <div class="container mt-5">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Department</th>
+              <th scope="col">Course Number</th>
+              <th scope="col">Title</th>
+              <th scope="col">Show Details</th>
+
+            </tr>
+          </thead>
+          <tbody id="courseDetailTB">
+           
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <footer></footer>
+    <script>
+        "use strict";
+
+window.onload = function () {
+  const courseDetailTB = document.querySelector("#courseDetailTB");
+
+  function loadCoursesTable() {
+    fetch("http://localhost:8081/api/courses")
+      .then((response) => response.json())
+      .then((courses) => {
+        console.log(courses);
+        for (const course of courses) {
+          let row = courseDetailTB.insertRow();
+
+          let cell0 = row.insertCell();
+          cell0.innerText = "";
+
+          let cell1 = row.insertCell();
+          cell1.innerText = course.dept;
+
+          let cell2 = row.insertCell();
+          cell2.innerText = course.courseNum;
+
+          let cell3 = row.insertCell();
+          cell3.innerText = course.courseName;
+
+          let anchor = document.createElement("a");
+          anchor.href = `http://localhost:8081/details.html?courseid=${course.id}`;
+          anchor.text = "See details";
+          let cell4 = row.insertCell();
+          cell4.appendChild(anchor);
+        }
+      });
+  }
+
+  loadCoursesTable();
+};
+    </script>
+  </body>
+</html>
